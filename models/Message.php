@@ -3,9 +3,7 @@
 namespace bariew\i18nModule\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\db\Expression;
 
 /**
  * This is the model class for table "message".

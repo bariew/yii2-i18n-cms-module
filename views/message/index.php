@@ -6,7 +6,7 @@ use yii\helpers\Url;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var bariew\i18nModule\models\search\MessageSearch $searchModel
  */
-
+echo \yii\helpers\Html::a('Find sources', ['generate-source'], ['class'=>'btn btn-info']);
 echo \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
@@ -14,48 +14,36 @@ echo \yii\grid\GridView::widget([
         [
             'attribute' => 'sourceCategory',
             'filter'    => \bariew\i18nModule\models\SourceMessage::categoryList(),
-            'sortLinkOptions'      => []
         ],
         [
             'attribute' => 'language',
-            'filter'    => [
-                'en' => Yii::t('modules/i18n', 'translate_grid_filter_english'),
-                'ru' => Yii::t('modules/i18n', 'translate_grid_filter_russian'),
-            ],
-            'headerOptions' => [
-                'width' => '115px',
-            ],
+            'filter'    => \bariew\i18nModule\models\MessageLanguage::listAll(),
         ],
-        [
-            'attribute' => 'sourceMessage',
-            'headerOptions' => [
-                'width' => '250px',
-            ],
-        ],
-        [
-            'attribute' => 'translation',
-            'headerOptions' => [
-                'width' => '250px',
-            ],
-        ],
+        'sourceMessage',
+        'translation',
         [
             'attribute' => 'translationUpdate',
-            'label'     => Yii::t('modules/i18n', 'translate_grid_update_translate_field'),
+            'label'     => Yii::t('modules/i18n', 'message_translation_update'),
             'filter'    => [
-                'is not null' => Yii::t('modules/i18n', 'translate_grid_filter_translated_messages'),
-                'is null'     => Yii::t('modules/i18n', 'translate_grid_filter_not_translated_messages'),
+                'is not null' => Yii::t('modules/i18n', 'message_translation_not_null'),
+                'is null'     => Yii::t('modules/i18n', 'message_translation_null'),
             ],
             'format' => 'raw',
             'value' => function($model) {
                     $button = Yii::t('modules/i18n', 'create_translation');
                     return "
                         <div class='input-group'>
-                            <div contentEditable='true' 
+                            <div contentEditable='true'
+                                style='height:auto;min-height: 34px;'
                                 id='{$model->id}-{$model->language}' "
                                 . "class='form-control translate-live-input'>$model->translation</div>
                             <span class='input-group-btn'>
                                <button
                                    type='button'
+                                   onclick='$.post($(this).data(\"url\"), {
+                                        translation : $(this).parent().prev().text(),
+                                        _csrf : \"". Yii::$app->request->csrfToken."\"
+                                   })'
                                    class='btn btn-default fast-translate'
                                    data-id='{$model->id}-{$model->language}'
                                    data-url='".Url::toRoute(['fast-update', 'id' => $model->id, 'language' => $model->language])."'

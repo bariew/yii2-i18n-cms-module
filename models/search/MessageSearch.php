@@ -20,7 +20,7 @@ class MessageSearch extends Message
     {
         return [
             [['id'], 'integer'],
-            [['language', 'translation', 'sourceMessage', 'sourceCategory', 'updated_at'], 'string'],
+            [['language', 'translation', 'sourceMessage', 'sourceCategory'], 'string'],
             [['translationUpdate'], 'safe'],
 
         ];
@@ -28,12 +28,11 @@ class MessageSearch extends Message
 
     public function search($params)
     {
+        $sourceMessageTable = SourceMessage::tableName();
         $query = Message::find();
         $query->joinWith('source');
         
         $dataProvider = new ActiveDataProvider(['query' => $query]);
-
-        $sourceMessageTable = SourceMessage::tableName();
         $dataProvider->getSort()->attributes['sourceMessage'] = [
             'asc' => [$sourceMessageTable.'.message' => SORT_ASC],
             'desc' => [$sourceMessageTable.'.message' => SORT_DESC],
@@ -42,10 +41,6 @@ class MessageSearch extends Message
             'asc' => [$sourceMessageTable.'.category' => SORT_ASC],
             'desc' => [$sourceMessageTable.'.category' => SORT_DESC],
         ];
-        
-        $sort = $dataProvider->getSort()->getAttributeOrders();
-        
-
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
@@ -78,7 +73,6 @@ class MessageSearch extends Message
         if ($this->sourceCategory) {
             $query->andFilterWhere(['like', $sourceMessageTable.'.category', $this->sourceCategory]);
         }
-        $query->andFilterWhere(['like', 'message.updated_at', $this->updated_at]);
         return $dataProvider;
     }
 }

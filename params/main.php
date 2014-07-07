@@ -2,7 +2,16 @@
 return [
     'menu'  => [
         'label'    => 'i18n',
-        'url' => ['/i18n/message/index']
+        'items' => [
+            [
+                'label' => 'Languages',
+                'url' => ['/i18n/message-language/index']
+            ],
+            [
+                'label' => 'Translations',
+                'url' => ['/i18n/message/index']
+            ],
+        ]
 
     ]
 ];

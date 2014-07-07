@@ -7,8 +7,11 @@
 
 namespace bariew\i18nModule;
 
+use bariew\i18nModule\components\I18N;
+use bariew\i18nModule\models\MessageLanguage;
 use yii\base\BootstrapInterface;
-use yii\console\Application;
+use yii\base\Controller;
+use yii\base\Event;
 
 /**
  * Bootstrap class initiates message controller.
@@ -22,9 +25,27 @@ class I18nBootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        if (get_class($app) != Application::className()) {
-            return true;
-        };
+        if (isset(\Yii::$app->components->i18n)) {
+            return;
+        }
+        \Yii::configure($app, ['components' => ['i18n' => [
+            'class' => I18N::className(),
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\DbMessageSource',
+                    'sourceLanguage' => 'key',
+                ],
+            ],
+            'languages' => MessageLanguage::find()->select('title')->column()
+        ]]]);
+
+        \Yii::$app->urlManager->addRules([
+            '<lang:\w{2}>/<module>/<controller>/<action>' => '<module>/<controller>/<action>',
+            '<lang:\w{2}>/<controller>/<action>' => '<controller>/<action>',
+            '<lang:\w{2}>\W{0,1}' => 'site/view',
+        ], false);
+
+        Event::on(Controller::className(), Controller::EVENT_BEFORE_ACTION, [\Yii::$app->i18n, 'setLanguage']);
         return true;
     }
 }
