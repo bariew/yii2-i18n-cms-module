@@ -47,7 +47,6 @@ class MessageController extends Controller
     public function actionGenerateSource()
     {
         $messageController = new ConsoleController($this->id, $this->module);
-        $languages = Yii::$app->i18n->languages;
         $paths = Yii::$app->i18n->getSourcePaths();
         $files = [];
         foreach ($paths as $path) {
@@ -67,7 +66,7 @@ class MessageController extends Controller
             SourceMessage::tableName(),
             Message::tableName(),
             true,
-            $languages
+            Yii::$app->i18n->languages
         );
         Yii::$app->session->setFlash('success', Yii::t('modules/i18n', 'messages_imported'));
         $this->redirect(Yii::$app->request->referrer);
