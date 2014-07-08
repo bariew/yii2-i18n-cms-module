@@ -25,9 +25,6 @@ class I18nBootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        if (isset(\Yii::$app->components->i18n)) {
-            return;
-        }
         \Yii::configure($app, ['components' => ['i18n' => [
             'class' => I18N::className(),
             'translations' => [

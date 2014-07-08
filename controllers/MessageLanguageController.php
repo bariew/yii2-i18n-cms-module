@@ -118,4 +118,11 @@ class MessageLanguageController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    public function actionChange($value)
+    {
+        Yii::$app->i18n->setLanguage($value);
+        $this->redirect(Yii::$app->i18n->languageUrl(Yii::$app->request->getReferrer(), $value));
+    }
 }

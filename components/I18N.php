@@ -1,34 +1,51 @@
 <?php
-
-namespace bariew\i18nModule\components;
-use yii\i18n\I18N as CommonI18N;
-
 /**
- * MyClass class file.
+ * I18N class file.
  * @copyright (c) 2014, Galament
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
 
+namespace bariew\i18nModule\components;
+use bariew\i18nModule\widgets\LangSelect;
+use yii\i18n\I18N as CommonI18N;
+
 /**
- * Description.
+ * Extended yii I18N component for translations.
+ * Sets language (from url get param).
+ * Gets source paths for translate message sources collecting.
+ * Gets language selection dropdown widget.
  *
- * Usage:
  * @author Pavel Bariev <bariew@yandex.ru>
  */
 class I18N extends CommonI18N
 {
-    public static $default = 'en';
+    public $default;
+    /**
+     * @var string default system language.
+     */
     public $languages = ['en'];
 
     public $_sourcePaths = [];
 
-    public static function setLanguage()
+    public function setLanguage()
     {
-        if (!$lang = \Yii::$app->request->get('lang')) {
-            $lang = self::$default;
+        $this->default = \Yii::$app->language;
+        $lang = \Yii::$app->request->get('lang');
+
+        if ($lang && \Yii::$app->language != $lang) {
+            \Yii::$app->language = $lang;
+            \Yii::$app->request->baseUrl = \Yii::$app->request->baseUrl . '/' .$lang;
         }
-        \Yii::$app->language = $lang;
-        \Yii::$app->request->baseUrl = \Yii::$app->request->baseUrl . '/' .$lang;
+    }
+
+    public function languageUrl($url, $lang)
+    {
+        $replacement = ($lang == $this->default ? '' : "/{$lang}");
+        $parsedUrl = parse_url($url);
+        $path = $replacement . preg_replace('/^\/\w{2}($|\/)/', '/', $parsedUrl['path']);
+        $oldRoot = implode('', [$parsedUrl['host'], $parsedUrl['path']]);
+        $root = implode('', [$parsedUrl['host'], $path]);
+        return str_replace($oldRoot, $root, $url);
     }
 
     public function getSourcePaths()
@@ -51,5 +68,10 @@ class I18N extends CommonI18N
             }
         }
         return $this->_sourcePaths = $result;
+    }
+
+    public function getWidget()
+    {
+        return LangSelect::widget();
     }
 }
