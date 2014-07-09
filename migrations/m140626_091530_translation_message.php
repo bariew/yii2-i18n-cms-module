@@ -17,7 +17,7 @@ class m140626_091530_translation_message extends \yii\db\Migration
             'translation'   => 'TEXT'
         ]);
         $this->addPrimaryKey('pk', 'message', 'id, language');
-        $this->addForeignKey('fk_message_source_message', 'message', 'id', 'source_message', 'id');
+        $this->addForeignKey('fk_message_source_message', 'message', 'id', 'source_message', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function down()

@@ -57,16 +57,16 @@ class MessageController extends Controller
         }
         $messages = [];
         foreach ($files as $file) {
-            $messages = array_merge_recursive($messages, $messageController->publicMethod('extractMessages', $file, 'Yii::t'));
+            $messages = array_merge_recursive($messages, $messageController->extractMessages($file, 'Yii::t'));
         }
 
-        $messageController->publicMethod('saveMessagesToDb',
+        $messageController->saveMessagesToDb(
             $messages,
             Yii::$app->db,
             SourceMessage::tableName(),
             Message::tableName(),
             true,
-            Yii::$app->i18n->languages
+            array_keys(Yii::$app->i18n->languages)
         );
         Yii::$app->session->setFlash('success', Yii::t('modules/i18n', 'messages_imported'));
         $this->redirect(Yii::$app->request->referrer);

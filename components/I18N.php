@@ -6,6 +6,7 @@
  */
 
 namespace bariew\i18nModule\components;
+use bariew\i18nModule\models\MessageLanguage;
 use bariew\i18nModule\widgets\LangSelect;
 use yii\i18n\I18N as CommonI18N;
 
@@ -20,12 +21,13 @@ use yii\i18n\I18N as CommonI18N;
 class I18N extends CommonI18N
 {
     public $default;
-    /**
-     * @var string default system language.
-     */
-    public $languages = ['en'];
 
     public $_sourcePaths = [];
+
+    public function getLanguages()
+    {
+        return MessageLanguage::listAll();
+    }
 
     public function setLanguage()
     {

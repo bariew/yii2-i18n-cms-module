@@ -8,6 +8,7 @@
 namespace bariew\i18nModule\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 
 /**
  * Stores all selected languages in database.
@@ -48,18 +49,18 @@ class MessageLanguage extends \yii\db\ActiveRecord
         ];
     }
 
+    protected static $_langList;
     /**
      * Lists all set languages.
      * @return array all languages title=>translation list.
      */
     public static function listAll()
     {
-        $languages = self::find()->select('title')->groupBy('title')->orderBy('title ASC')->column();
-        $result = [];
-        foreach ($languages as $language) {
-            $result[$language] = Yii::t('modules/i18n', 'Language {language}', compact('language'));
+        if (self::$_langList) {
+            return self::$_langList;
         }
-        return $result;
+        $languages = array_flip(self::find()->select('title')->distinct()->column());
+        return self::$_langList = array_intersect_key(self::listAllPossible(), $languages);
     }
 
     /**
@@ -69,5 +70,22 @@ class MessageLanguage extends \yii\db\ActiveRecord
     public static function listAllPossible()
     {
         return require __DIR__ . DIRECTORY_SEPARATOR . '_languageList.php';
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $items = SourceMessage::find()->select('id')->column();
+            array_walk($items, function(&$v) {$v = [$v, $this->title]; });
+            Yii::$app->db->createCommand()
+                ->batchInsert(Message::tableName(), ['id','language'], $items)
+                ->execute();
+        }
+    }
+
+    public function afterDelete()
+    {
+        Message::deleteAll(['language' => $this->title]);
     }
 }

@@ -12,6 +12,7 @@ use bariew\i18nModule\models\MessageLanguage;
 use yii\base\BootstrapInterface;
 use yii\base\Controller;
 use yii\base\Event;
+use yii\console\Application;
 
 /**
  * Bootstrap class initiates message controller.
@@ -25,6 +26,9 @@ class I18nBootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
+        if (get_class($app) == Application::className()) {
+            return;
+        }
         \Yii::configure($app, ['components' => ['i18n' => [
             'class' => I18N::className(),
             'translations' => [
@@ -33,7 +37,6 @@ class I18nBootstrap implements BootstrapInterface
                     'sourceLanguage' => 'key',
                 ],
             ],
-            'languages' => MessageLanguage::find()->select('title')->column()
         ]]]);
 
         \Yii::$app->urlManager->addRules([

@@ -4,8 +4,15 @@ namespace bariew\i18nModule\controllers;
 use \yii\console\controllers\MessageController;
 class ConsoleController extends MessageController
 {
-    public function publicMethod($name, $a = null, $b = null, $c = null, $d = null, $e = null, $f = null)
+    public function saveMessagesToDb($messages, $db, $sourceMessageTable, $messageTable, $removeUnused, $languages)
     {
-        return $this->$name($a, $b, $c, $d, $e, $f);
+        ob_start();
+        return parent::saveMessagesToDb($messages, $db, $sourceMessageTable, $messageTable, $removeUnused, $languages);
+    }
+
+    public function extractMessages($fileName, $translator)
+    {
+        ob_start();
+        return parent::extractMessages($fileName, $translator);
     }
 }
