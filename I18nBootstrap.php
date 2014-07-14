@@ -8,6 +8,7 @@
 namespace bariew\i18nModule;
 
 use bariew\i18nModule\components\I18N;
+use bariew\i18nModule\components\I18NUrlManager;
 use bariew\i18nModule\models\MessageLanguage;
 use yii\base\BootstrapInterface;
 use yii\base\Controller;
@@ -39,10 +40,21 @@ class I18nBootstrap implements BootstrapInterface
             ],
         ]]]);
 
+        $urlConfig = [
+            'class' => I18NUrlManager::className(),
+            'enablePrettyUrl'       => true,
+            'showScriptName'        => false,
+            'enableStrictParsing'   => true,
+        ];
+        foreach(['baseUrl', 'cache', 'hostInfo','routeParam', 'ruleConfig', 'suffix', 'rules'] as $param)  {
+            $urlConfig[$param] = \Yii::$app->urlManager->$param;
+        }
+        \Yii::configure($app, ['components' => ['urlManager' => $urlConfig]]);
         \Yii::$app->urlManager->addRules([
-            '<lang:\w{2}>/<module>/<controller>/<action>' => '<module>/<controller>/<action>',
-            '<lang:\w{2}>/<controller>/<action>' => '<controller>/<action>',
-            '<lang:\w{2}>\W{0,1}' => 'site/view',
+            '<lang:\w{2}>/<_a>'=>'site/<_a>',
+            '<lang:\w{2}>/<_c>/<_a>'=>'<_c>/<_a>',
+            '<lang:\w{2}>/<_m>/<_c>/<_a>' => '<_m>/<_c>/<_a>',
+            '<lang:\w{2}>\W{0,1}' => 'site/index',
         ], false);
 
         Event::on(Controller::className(), Controller::EVENT_BEFORE_ACTION, [\Yii::$app->i18n, 'setLanguage']);

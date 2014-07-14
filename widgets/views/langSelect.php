@@ -4,11 +4,12 @@
  * @copyright (c) 2014, Galament
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
-echo  \yii\helpers\Html::dropDownList(
-    'lang',
-    \Yii::$app->language,
-    \bariew\i18nModule\models\MessageLanguage::listAll(), [
-        'class'     => 'form-control',
-        'onchange' => 'window.location.href = "/i18n/message-language/change?value="+this.options[this.selectedIndex].value;'
-    ]
-);
+$form = \yii\widgets\ActiveForm::begin(['fieldConfig' =>[
+    'class' => \yii\widgets\ActiveField::className(),
+    'template'  => '{input}'
+]]);
+echo $form->field($model, 'title')->dropDownList($model::listAll(), [
+    'class'     => 'form-control',
+    'onchange' => '$(this).parents("form").submit();'
+]);
+$form::end();

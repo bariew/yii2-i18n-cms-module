@@ -7,7 +7,9 @@
 
 namespace bariew\i18nModule\widgets;
 
+use bariew\i18nModule\models\MessageLanguage;
 use yii\base\Widget;
+use yii\helpers\Url;
 
 /**
  * Dropdown for language selection.
@@ -26,6 +28,15 @@ class LangSelect extends Widget
      */
     public function run()
     {
-        return $this->render($this->view);
+        $model = new MessageLanguage();
+        $model->scenario = $model::WIDGET_SCENARIO;
+        $model->title = \Yii::$app->language;
+        if ($model->load(\Yii::$app->request->post())) {
+            unset($_GET['q']);
+            $get = \Yii::$app->request->get();
+            \Yii::$app->urlManager->setLang($model->title);
+            \Yii::$app->controller->redirect(array_merge([\Yii::$app->request->baseUrl], $get));
+        }
+        return $this->render($this->view, compact('model'));
     }
 }

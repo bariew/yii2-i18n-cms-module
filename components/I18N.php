@@ -32,22 +32,9 @@ class I18N extends CommonI18N
     public function setLanguage()
     {
         $this->default = \Yii::$app->language;
-        $lang = \Yii::$app->request->get('lang');
-
-        if ($lang && \Yii::$app->language != $lang) {
+        if ($lang = \Yii::$app->request->get('lang')) {
             \Yii::$app->language = $lang;
-            \Yii::$app->request->baseUrl = \Yii::$app->request->baseUrl . '/' .$lang;
         }
-    }
-
-    public function languageUrl($url, $lang)
-    {
-        $replacement = ($lang == $this->default ? '' : "/{$lang}");
-        $parsedUrl = parse_url($url);
-        $path = $replacement . preg_replace('/^\/\w{2}($|\/)/', '/', $parsedUrl['path']);
-        $oldRoot = implode('', [$parsedUrl['host'], $parsedUrl['path']]);
-        $root = implode('', [$parsedUrl['host'], $path]);
-        return str_replace($oldRoot, $root, $url);
     }
 
     public function getSourcePaths()

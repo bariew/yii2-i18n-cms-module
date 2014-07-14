@@ -8,7 +8,7 @@
 namespace bariew\i18nModule\models;
 
 use Yii;
-use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * Stores all selected languages in database.
@@ -17,8 +17,9 @@ use yii\db\ActiveQuery;
  * @property integer $id
  * @property string $title
  */
-class MessageLanguage extends \yii\db\ActiveRecord
+class MessageLanguage extends ActiveRecord
 {
+    const WIDGET_SCENARIO = 'widget';
     /**
      * @inheritdoc
      */
@@ -34,7 +35,7 @@ class MessageLanguage extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'string', 'max' => 2],
-            [['title'], 'unique']
+            [['title'], 'unique', 'except' => self::WIDGET_SCENARIO]
         ];
     }
 
@@ -59,7 +60,7 @@ class MessageLanguage extends \yii\db\ActiveRecord
         if (self::$_langList) {
             return self::$_langList;
         }
-        $languages = array_flip(self::find()->select('title')->distinct()->column());
+        $languages = array_flip(self::find()->select('title')->column());
         return self::$_langList = array_intersect_key(self::listAllPossible(), $languages);
     }
 
