@@ -28,6 +28,9 @@ class LangSelect extends Widget
      */
     public function run()
     {
+        if (!\Yii::$app->has('db')) {
+            return;
+        }
         $model = new MessageLanguage();
         $model->scenario = $model::WIDGET_SCENARIO;
         $model->title = \Yii::$app->language;
