@@ -77,12 +77,19 @@ class MessageLanguage extends ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
         if ($insert) {
-            $items = SourceMessage::find()->select('id')->column();
-            array_walk($items, function(&$v) {$v = [$v, $this->title]; });
-            Yii::$app->db->createCommand()
-                ->batchInsert(Message::tableName(), ['id','language'], $items)
-                ->execute();
+            $this->cloneSources();
         }
+    }
+
+    public function cloneSources()
+    {
+        if (!$items = SourceMessage::find()->select('id')->column()) {
+            return;
+        }
+        array_walk($items, function(&$v) {$v = [$v, $this->title]; });
+        Yii::$app->db->createCommand()
+            ->batchInsert(Message::tableName(), ['id','language'], $items)
+            ->execute();
     }
 
     public function afterDelete()
