@@ -1,8 +1,8 @@
 <?php
 
 namespace bariew\i18nModule\controllers;
-use \yii\console\controllers\MessageController;
-class ConsoleController extends MessageController
+use \yii\console\controllers\MessageController as ConsoleMessageController;
+class ConsoleController extends ConsoleMessageController
 {
     public function saveMessagesToDb($messages, $db, $sourceMessageTable, $messageTable, $removeUnused, $languages)
     {
