@@ -10,7 +10,7 @@ namespace bariew\i18nModule;
 use bariew\i18nModule\components\I18N;
 use bariew\i18nModule\components\I18NUrlManager;
 use yii\base\BootstrapInterface;
-use yii\base\Controller;
+use yii\web\Controller;
 use yii\base\Event;
 use yii\console\Application;
 
