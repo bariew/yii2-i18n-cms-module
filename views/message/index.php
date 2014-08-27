@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Url;
+use Yii;
+
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
@@ -23,37 +25,35 @@ echo \yii\grid\GridView::widget([
         'translation',
         [
             'attribute' => 'translationUpdate',
-            'label'     => Yii::t('modules/i18n', 'message_translation_update'),
+            'label'     => Yii::t('modules/i18n', 'Update'),
             'filter'    => [
-                'is not null' => Yii::t('modules/i18n', 'message_translation_not_null'),
-                'is null'     => Yii::t('modules/i18n', 'message_translation_null'),
+                'is not null' => Yii::t('modules/i18n', 'Translated'),
+                'is null'     => Yii::t('modules/i18n', 'Not translated'),
             ],
             'format' => 'raw',
             'value' => function($model) {
-                    $button = Yii::t('modules/i18n', 'create_translation');
-                    return "
-                        <div class='input-group'>
-                            <div contentEditable='true'
-                                style='height:auto;min-height: 34px;'
-                                id='{$model->id}-{$model->language}' "
-                                . "class='form-control translate-live-input'>$model->translation</div>
-                            <span class='input-group-btn'>
-                               <button
-                                   type='button'
-                                   onclick='$.post($(this).data(\"url\"), {
-                                        translation : $(this).parent().prev().text(),
-                                        _csrf : \"". Yii::$app->request->csrfToken."\"
-                                   })'
-                                   class='btn btn-default fast-translate'
-                                   data-id='{$model->id}-{$model->language}'
-                                   data-url='".Url::toRoute(['fast-update', 'id' => $model->id, 'language' => $model->language])."'
-                               >
-                                    $button
-                               </button>
-                            </span>
-                        </div>
-                    ";
-                },
+                $button = Yii::t('modules/i18n', 'Save');
+                return
+                    "<div class='input-group'>
+                        <div contentEditable='true'
+                            style='height:auto;min-height: 34px;'
+                            id='{$model->id}-{$model->language}' "
+                            . "class='form-control translate-live-input'>$model->translation</div>
+                        <span class='input-group-btn'>
+                           <button
+                               type='button'
+                               onclick='$.post($(this).data(\"url\"), {
+                                    translation : $(this).parent().prev().text(),
+                                    _csrf : \"". Yii::$app->request->csrfToken."\"
+                               })'
+                               class='btn btn-default fast-translate'
+                               data-id='{$model->id}-{$model->language}'
+                               data-url='".Url::toRoute(['fast-update', 'id' => $model->id, 'language' => $model->language])."'
+                           >{{$button}}</button>
+                        </span>
+                    </div>
+                ";
+            },
         ],
     ],
 ]);

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use Yii;
 
 /**
  * @var yii\web\View $this
@@ -17,8 +18,8 @@ use yii\helpers\Html;
     <?= $form->field($model, 'translation')->textInput(['maxlength' => 30]) ?>
     
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('modules/i18n', 'create')
-                : Yii::t('modules/i18n', 'update'),
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('modules/i18n', 'Create')
+                : Yii::t('modules/i18n', 'Update'),
             ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'])
         ?>
     </div>

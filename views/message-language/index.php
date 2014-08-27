@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use Yii;
 
 /* @var $this yii\web\View */
 /* @var $searchModel bariew\i18nModule\models\search\MessageLanguageSearch */
@@ -13,12 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="message-language-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a(Yii::t('modules/i18n', 'Create {modelClass}', [
-    'modelClass' => 'Message Language',
-]), ['create'], ['class' => 'btn btn-success']) ?>
+                'modelClass' => 'Message Language',
+            ]), ['create'], ['class' => 'btn btn-success']);
+        ?>
     </p>
 
     <?= GridView::widget([

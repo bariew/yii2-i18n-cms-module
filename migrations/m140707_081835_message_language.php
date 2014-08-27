@@ -1,11 +1,12 @@
 <?php use yii\db\Schema;
 use yii\db\Migration;
+use \bariew\i18nModule\models\MessageLanguage;
 
 class m140707_081835_message_language extends Migration
 {
     public function up()
     {
-        $this->createTable('message_language', [
+        return $this->createTable(MessageLanguage::tableName(), [
             'id'    => Schema::TYPE_PK,
             'title' => Schema::TYPE_STRING
         ]);
@@ -13,8 +14,6 @@ class m140707_081835_message_language extends Migration
 
     public function down()
     {
-        $this->dropTable('message_language');
-
-        return true;
+        return $this->dropTable(MessageLanguage::tableName());
     }
 }

@@ -24,7 +24,7 @@ class SourceMessage extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'source_message';
+        return '{{source_message}}';
     }
 
     /**

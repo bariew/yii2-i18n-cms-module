@@ -25,7 +25,7 @@ class MessageLanguage extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'message_language';
+        return '{{message_language}}';
     }
 
     /**
