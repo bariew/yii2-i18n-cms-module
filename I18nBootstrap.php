@@ -9,10 +9,11 @@ namespace bariew\i18nModule;
 
 use bariew\i18nModule\components\I18N;
 use bariew\i18nModule\components\I18NUrlManager;
+use bariew\i18nModule\models\SourceMessage;
 use yii\base\BootstrapInterface;
 use yii\web\Controller;
 use yii\base\Event;
-use yii\console\Application;
+use yii\web\Application;
 
 /**
  * Bootstrap class initiates message controller.
@@ -26,8 +27,11 @@ class I18nBootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        if (get_class($app) == Application::className()) {
-            return;
+        if (!$app instanceof Application) {
+            return false;
+        }
+        if (!$app->db->isActive || !$app->db->getTableSchema(SourceMessage::tableName())) {
+            return false;
         }
         \Yii::configure($app, ['components' => ['i18n' => [
             'class' => I18N::className(),
