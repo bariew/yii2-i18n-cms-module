@@ -19,6 +19,11 @@ class Module extends \yii\base\Module
     {
         \Yii::configure(\Yii::$app, ['components' => ['i18n' => [
             'class' => I18N::className(),
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                ],
+            ],
         ]]]);
     }
 }
