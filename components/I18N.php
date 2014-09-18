@@ -6,9 +6,13 @@
  */
 
 namespace bariew\i18nModule\components;
+
+use bariew\i18nModule\models\SourceMessage;
+use Yii;
 use bariew\i18nModule\models\MessageLanguage;
 use bariew\i18nModule\widgets\LangSelect;
 use yii\i18n\I18N as CommonI18N;
+use yii\web\Application;
 
 /**
  * Extended yii I18N component for translations.
@@ -23,6 +27,35 @@ class I18N extends CommonI18N
     public $default;
 
     public $_sourcePaths = [];
+
+    public function init()
+    {
+        parent::init();
+        if (!Yii::$app instanceof Application) {
+            return false;
+        }
+        if (!Yii::$app->db->isActive || !Yii::$app->db->getTableSchema(SourceMessage::tableName())) {
+            return false;
+        }
+        $urlConfig = [
+            'class' => I18NUrlManager::className(),
+            'enablePrettyUrl'       => true,
+            'showScriptName'        => false,
+            'enableStrictParsing'   => true,
+        ];
+        foreach(['baseUrl', 'cache', 'hostInfo','routeParam', 'ruleConfig', 'suffix', 'rules'] as $param)  {
+            $urlConfig[$param] = \Yii::$app->urlManager->$param;
+        }
+        \Yii::configure(\Yii::$app, ['components' => ['urlManager' => $urlConfig]]);
+        \Yii::$app->urlManager->addRules([
+            '<lang:\w{2}>/<_a>'=>'site/<_a>',
+            '<lang:\w{2}>/<_c>/<_a>'=>'<_c>/<_a>',
+            '<lang:\w{2}>/<_m>/<_c>/<_a>' => '<_m>/<_c>/<_a>',
+            '<lang:\w{2}>\W{0,1}' => 'site/index',
+        ], false);
+
+        $this->setLanguage();
+    }
 
     public function getLanguages()
     {
