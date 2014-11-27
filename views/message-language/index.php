@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use Yii;
 
 /* @var $this yii\web\View */
 /* @var $searchModel bariew\i18nModule\models\search\MessageLanguageSearch */

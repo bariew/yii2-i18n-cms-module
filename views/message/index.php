@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Url;
-use Yii;
 
 /**
  * @var yii\web\View $this
