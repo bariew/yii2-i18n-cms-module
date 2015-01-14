@@ -3,7 +3,7 @@
 namespace bariew\i18nModule;
 /**
  * Module class file.
- * @copyright (c) 2014, Galament
+ * @copyright (c) 2014, Bariew
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
 use yii\i18n\I18N;
