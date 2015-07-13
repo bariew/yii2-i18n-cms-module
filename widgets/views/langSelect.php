@@ -8,7 +8,7 @@ $form = \yii\widgets\ActiveForm::begin(['fieldConfig' =>[
     'class' => \yii\widgets\ActiveField::className(),
     'template'  => '{input}'
 ]]);
-echo $form->field($model, 'title')->dropDownList($model::listAll(), [
+echo \yii\helpers\Html::dropDownList('lang', Yii::$app->language, $langs, [
     'class'     => 'form-control',
     'onchange' => '$(this).parents("form").submit();'
 ]);

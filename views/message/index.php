@@ -18,7 +18,7 @@ echo \yii\grid\GridView::widget([
         ],
         [
             'attribute' => 'language',
-            'filter'    => \bariew\i18nModule\models\MessageLanguage::listAll(),
+            'filter'    => array_combine(\Yii::$app->i18n->getLanguages(), \Yii::$app->i18n->getLanguages()),
         ],
         'sourceMessage',
         'translation',
@@ -48,7 +48,7 @@ echo \yii\grid\GridView::widget([
                                class='btn btn-default fast-translate'
                                data-id='{$model->id}-{$model->language}'
                                data-url='".Url::toRoute(['fast-update', 'id' => $model->id, 'language' => $model->language])."'
-                           >{{$button}}</button>
+                           >{$button}</button>
                         </span>
                     </div>
                 ";

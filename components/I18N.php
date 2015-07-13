@@ -25,6 +25,7 @@ use yii\web\Application;
 class I18N extends CommonI18N
 {
     public $default;
+    public $configPath = '@app/config/i18n.php';
 
     public $_sourcePaths = [];
 
@@ -59,7 +60,12 @@ class I18N extends CommonI18N
 
     public function getLanguages()
     {
-        return MessageLanguage::listAll();
+        return $this->getConfig()['languages'];
+    }
+
+    public function getConfig()
+    {
+        return require Yii::getAlias($this->configPath);
     }
 
     public function setLanguage()

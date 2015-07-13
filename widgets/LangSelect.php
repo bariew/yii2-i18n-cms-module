@@ -31,15 +31,13 @@ class LangSelect extends Widget
         if (!\Yii::$app->has('db')) {
             return;
         }
-        $model = new MessageLanguage();
-        $model->scenario = $model::WIDGET_SCENARIO;
-        $model->title = \Yii::$app->language;
-        if ($model->load(\Yii::$app->request->post())) {
+        $langs = \Yii::$app->i18n->getLanguages();
+        if ($lang = \Yii::$app->request->post('lang')) {
             unset($_GET['q']);
             $get = \Yii::$app->request->get();
-            \Yii::$app->urlManager->setLang($model->title);
+            \Yii::$app->urlManager->setLang($lang);
             \Yii::$app->controller->redirect(array_merge([\Yii::$app->request->baseUrl], $get));
         }
-        return $this->render($this->view, compact('model'));
+        return $this->render($this->view, ['langs' => array_combine($langs, $langs)]);
     }
 }
