@@ -7,7 +7,6 @@ use yii\helpers\Url;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var bariew\i18nModule\models\search\MessageSearch $searchModel
  */
-echo \yii\helpers\Html::a('Find sources', ['generate-source'], ['class'=>'btn btn-info']);
 echo \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
@@ -41,7 +40,9 @@ echo \yii\grid\GridView::widget([
                         <span class='input-group-btn'>
                            <button
                                type='button'
-                               onclick='$.post($(this).data(\"url\"), {
+                               onclick='
+                               $(this).parents(\"tr\").fadeOut();
+                               $.post($(this).data(\"url\"), {
                                     translation : $(this).parent().prev().text(),
                                     _csrf : \"". Yii::$app->request->csrfToken."\"
                                })'
