@@ -44,9 +44,9 @@ class SourceMessage extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'         => Yii::t('modules/i18n', 'id'),
-            'category'   => Yii::t('modules/i18n', 'category'),
-            'message'    => Yii::t('modules/i18n', 'message'),
+            'id'         => Yii::t('modules/i18n', 'ID'),
+            'category'   => Yii::t('modules/i18n', 'Category'),
+            'message'    => Yii::t('modules/i18n', 'Message'),
         ];
     }
 

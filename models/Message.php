@@ -43,11 +43,11 @@ class Message extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'             => Yii::t('modules/i18n', 'id'),
-            'language'       => Yii::t('modules/i18n', 'language'),
-            'sourceMessage'  => Yii::t('modules/i18n', 'message_source'),
-            'sourceCategory' => Yii::t('modules/i18n', 'message_category'),
-            'translation'    => Yii::t('modules/i18n', 'translation'),
+            'id'             => Yii::t('modules/i18n', 'ID'),
+            'language'       => Yii::t('modules/i18n', 'Language'),
+            'sourceMessage'  => Yii::t('modules/i18n', 'Message source'),
+            'sourceCategory' => Yii::t('modules/i18n', 'Message category'),
+            'translation'    => Yii::t('modules/i18n', 'Translation'),
         ];
     }
 
