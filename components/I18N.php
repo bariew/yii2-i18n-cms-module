@@ -20,18 +20,23 @@ use yii\web\Application;
  * Gets source paths for translate message sources collecting.
  * Gets language selection dropdown widget.
  *
+ * @property array $languages
  * @author Pavel Bariev <bariew@yandex.ru>
  */
 class I18N extends CommonI18N
 {
     public $default;
     public $configPath = '@app/config/i18n.php';
+    public $languages = [];
 
     public $_sourcePaths = [];
 
-    public function getLanguages()
+    public function init()
     {
-        return $this->getConfig()['languages'];
+        parent::init();
+        if (!$this->languages) {
+            $this->languages = $this->getConfig()['languages'];
+        }
     }
 
     public function getConfig()
