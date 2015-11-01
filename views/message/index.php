@@ -17,7 +17,7 @@ echo \yii\grid\GridView::widget([
         ],
         [
             'attribute' => 'language',
-            'filter'    => array_combine(\Yii::$app->i18n->getLanguages(), \Yii::$app->i18n->getLanguages()),
+            'filter'    => array_combine(\Yii::$app->i18n->languages, \Yii::$app->i18n->languages),
         ],
         'sourceMessage',
         'translation',

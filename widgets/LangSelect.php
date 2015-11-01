@@ -31,7 +31,7 @@ class LangSelect extends Widget
         if (!\Yii::$app->has('db')) {
             return;
         }
-        $langs = \Yii::$app->i18n->getLanguages();
+        $langs = \Yii::$app->i18n->languages;
         if ($lang = \Yii::$app->request->post('lang')) {
             unset($_GET['q']);
             $get = \Yii::$app->request->get();
