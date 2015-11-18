@@ -1,8 +1,29 @@
 <?php
+/**
+ * I18NUrlManager class file.
+ * @copyright (c) 2015, Pavel Bariev
+ * @license http://www.opensource.org/licenses/bsd-license.php
+ */
+
 namespace bariew\i18nModule\components;
 
+/**
+ * Manages App urls adding language data
+ * @author Pavel Bariev <bariew@yandex.ru>
+ *
+ */
 class I18NUrlManager extends \yii\web\UrlManager
 {
+    /**
+     * @var string language storage
+     */
+    protected $_lang;
+
+    /**
+     * Adds language into url
+     * @param array|string $params
+     * @return mixed|string
+     */
     public function createUrl($params)
     {
         $lang = $this->getLang($params);
@@ -14,7 +35,11 @@ class I18NUrlManager extends \yii\web\UrlManager
         return '/' . $lang . $url;
     }
 
-    protected $_lang;
+    /**
+     * Gets site's language
+     * @param $params
+     * @return bool
+     */
     public function getLang($params)
     {
         if ($this->_lang) {
@@ -30,6 +55,10 @@ class I18NUrlManager extends \yii\web\UrlManager
         return false;
     }
 
+    /**
+     * Sets this language
+     * @param $lang
+     */
     public function setLang($lang)
     {
         $this->_lang = $lang;

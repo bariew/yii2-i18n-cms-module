@@ -31,6 +31,9 @@ class I18N extends CommonI18N
 
     public $_sourcePaths = [];
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -39,11 +42,18 @@ class I18N extends CommonI18N
         }
     }
 
+    /**
+     * Gets app config data
+     * @return mixed
+     */
     public function getConfig()
     {
         return require Yii::getAlias($this->configPath);
     }
 
+    /**
+     * Sets app language
+     */
     public function setLanguage()
     {
         $this->default = \Yii::$app->language;
@@ -52,6 +62,10 @@ class I18N extends CommonI18N
         }
     }
 
+    /**
+     * Gets all app php files paths
+     * @return array
+     */
     public function getSourcePaths()
     {
         if ($this->_sourcePaths) {
@@ -74,6 +88,11 @@ class I18N extends CommonI18N
         return $this->_sourcePaths = $result;
     }
 
+    /**
+     * Gets language dropdown widget
+     * @return string
+     * @throws \Exception
+     */
     public function getWidget()
     {
         return LangSelect::widget();

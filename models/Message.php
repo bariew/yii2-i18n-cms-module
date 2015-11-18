@@ -1,4 +1,9 @@
 <?php
+/**
+ * Message class file.
+ * @copyright (c) 2015, Pavel Bariev
+ * @license http://www.opensource.org/licenses/bsd-license.php
+ */
 
 namespace bariew\i18nModule\models;
 
@@ -6,8 +11,10 @@ use Yii;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "message".
+ * Description.
  *
+ * Usage:
+ * @author Pavel Bariev <bariew@yandex.ru>
  * @property integer $id
  * @property string $language
  * @property string $translation

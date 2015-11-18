@@ -1,17 +1,23 @@
 <?php
+/**
+ * MessageController class file.
+ * @copyright (c) 2015, Pavel Bariev
+ * @license http://www.opensource.org/licenses/bsd-license.php
+ */
 
 namespace bariew\i18nModule\controllers;
 
-use bariew\i18nModule\models\SourceMessage;
 use Yii;
 use bariew\i18nModule\models\Message;
 use bariew\i18nModule\models\search\MessageSearch;
-use yii\helpers\FileHelper;
 use yii\web\Controller;
 
-
 /**
- * TranslateController implements the CRUD actions for Message model.
+ * Manages site translation from admin area.
+ *
+ * Usage:
+ * @author Pavel Bariev <bariew@yandex.ru>
+ *
  */
 class MessageController extends Controller
 {

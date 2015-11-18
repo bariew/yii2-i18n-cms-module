@@ -1,4 +1,9 @@
 <?php
+/**
+ * MessageSearch class file.
+ * @copyright (c) 2015, Pavel Bariev
+ * @license http://www.opensource.org/licenses/bsd-license.php
+ */
 
 namespace bariew\i18nModule\models\search;
 
@@ -8,14 +13,21 @@ use yii\data\ActiveDataProvider;
 use bariew\i18nModule\models\Message;
 
 /**
- * MessageSearch represents the model behind the search form about `bariew\i18nModule\models\Message`.
+ * Description.
+ *
+ * Usage:
+ * @author Pavel Bariev <bariew@yandex.ru>
+ *
  */
 class MessageSearch extends Message
 {
     public $sourceMessage;
     public $sourceCategory;
     public $translationUpdate;
-    
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -26,6 +38,11 @@ class MessageSearch extends Message
         ];
     }
 
+    /**
+     * Default index search method
+     * @param $params
+     * @return ActiveDataProvider
+     */
     public function search($params)
     {
         $sourceMessageTable = SourceMessage::tableName();

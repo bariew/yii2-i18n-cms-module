@@ -1,4 +1,9 @@
 <?php
+/**
+ * SourceMessage class file.
+ * @copyright (c) 2015, Pavel Bariev
+ * @license http://www.opensource.org/licenses/bsd-license.php
+ */
 
 namespace bariew\i18nModule\models;
 
@@ -7,8 +12,12 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
 
+
 /**
- * This is the model class for table "translate_source".
+ * Description.
+ *
+ * Usage:
+ * @author Pavel Bariev <bariew@yandex.ru>
  *
  * @property integer $id
  * @property string $category

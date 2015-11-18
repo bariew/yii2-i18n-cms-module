@@ -1,12 +1,11 @@
 <?php
-
-use yii\helpers\Url;
-
 /**
  * @var yii\web\View $this
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var bariew\i18nModule\models\search\MessageSearch $searchModel
  */
+$this->title = "Translations";
+
 echo \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
