@@ -27,6 +27,7 @@ echo \yii\grid\GridView::widget([
                 'is not null' => Yii::t('modules/i18n', 'Translated'),
                 'is null'     => Yii::t('modules/i18n', 'Not translated'),
             ],
+            'options' => ['class' => 'col-sm-5'],
             'format' => 'raw',
             'value' => function($model) { return Yii::$app->view->render('form', compact('model')); },
         ],
