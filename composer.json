@@ -1,8 +1,8 @@
 {
     "name": "bariew/yii2-i18n-cms-module",
-    "description": "in development",
+    "description": "CRUD module for translations",
     "type": "yii2-extension",
-    "keywords": ["yii2","module","i18n", "cms", "yii2-null-cms-module"],
+    "keywords": ["yii2","module","i18n"],
     "license": "BSD-3-Clause",
     "authors": [
         {

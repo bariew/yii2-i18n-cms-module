@@ -9,6 +9,9 @@ namespace bariew\i18nModule\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\console\controllers\MessageController;
+use yii\console\controllers\MigrateController;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\db\Exception;
 
@@ -33,7 +36,7 @@ class SourceMessage extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{source_message}}';
+        return '{{%source_message}}';
     }
 
     /**
@@ -60,11 +63,26 @@ class SourceMessage extends ActiveRecord
     }
 
     /**
+     * @inheritdoc
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($insert) {
+            $data = array_map(function($v) { return [$v, $this->id]; }, Message::languageList());
+            Yii::$app->db->createCommand()
+                ->batchInsert(Message::tableName(), ['language', 'id'], $data)
+                ->execute();
+        }
+    }
+
+    /**
      * @return \yii\db\ActiveQuery
      */
     public function getMessage()
     {
-        return $this->hasOne(Message::className(), ['id' => 'id']);
+        return $this->hasOne(Message::className(), ['id' => 'id'])
+            ->from(['message' => Message::tableName()]);
     }
     /**
      * Gets all used categories list.
@@ -76,4 +94,21 @@ class SourceMessage extends ActiveRecord
         return array_combine($data, $data);
     }
 
+    public static function translationList($language, $category)
+    {
+        return static::find()
+            ->joinWith(['message' => function(ActiveQuery $query) use($language) {
+                $query->andWhere(compact('language'));
+            }])->where(compact('category'))
+            ->andWhere('translation IS NOT NULL')
+            ->indexBy('message')
+            ->select(['translation'])
+            ->column();
+    }
+
+    public static function generate($params)
+    {
+        defined('STDOUT') || define('STDOUT', fopen('/tmp/stdout', 'w'));
+        return (new MessageController('message', Yii::$app))->runAction('extract', $params);
+    }
 }

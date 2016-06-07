@@ -56,6 +56,6 @@ return [
     'format' => 'db',
     // When format is "db", you may specify the following two options
     'db' => 'db',
-    'sourceMessageTable' => 'source_message',
-    'messageTable' => 'message'
+    'sourceMessageTable' => '{{%source_message}}',
+    'messageTable' => '{{%message}}'
 ];

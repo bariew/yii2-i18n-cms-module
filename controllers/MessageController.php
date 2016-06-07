@@ -7,9 +7,10 @@
 
 namespace bariew\i18nModule\controllers;
 
+use bariew\i18nModule\models\SourceMessage;
 use Yii;
 use bariew\i18nModule\models\Message;
-use bariew\i18nModule\models\search\MessageSearch;
+use bariew\i18nModule\models\MessageSearch;
 use yii\web\Controller;
 
 /**
@@ -33,17 +34,36 @@ class MessageController extends Controller
     }
 
     /**
-     * Быстрое обновление перевода.
+     * Fast translation update.
      *
      * @param int $id
-     * @param string $language
      * @return string
      */
-    public function actionFastUpdate($id, $language)
+    public function actionFastUpdate($id)
     {
         Message::updateAll(
             ['translation' => Yii::$app->request->post('translation')],
-            compact('id', 'language')
+            ['id' => $id, 'language' => Yii::$app->request->post('language')]
         );
+    }
+
+    public function actionCreate()
+    {
+        $model = new SourceMessage();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->addFlash('success', Yii::t('modules/i18n', 'Successfully saved.'));
+            $this->redirect(['index']) && Yii::$app->end();
+        }
+        return $this->render('create', compact('model'));
+    }
+
+    /**
+     * Deletes all source and translation messages.
+     * @param $id
+     * @throws \Exception
+     */
+    public function actionDelete($id)
+    {
+        SourceMessage::findOne($id)->delete();
     }
 }

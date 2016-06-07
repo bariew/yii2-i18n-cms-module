@@ -8,6 +8,7 @@
 namespace bariew\i18nModule\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -29,7 +30,7 @@ class Message extends ActiveRecord
      */
     public static function tableName()
     {
-        return '{{message}}';
+        return '{{%message}}';
     }
 
     /**
@@ -63,7 +64,8 @@ class Message extends ActiveRecord
      */
     public function getSource()
     {
-        return $this->hasOne(SourceMessage::className(), ['id' => 'id']);
+        return $this->hasOne(SourceMessage::className(), ['id' => 'id'])
+            ->from(['source' => SourceMessage::tableName()]);
     }
 
     /**
@@ -84,6 +86,15 @@ class Message extends ActiveRecord
     public function getSourceCategory()
     {
         return $this->source->category;
+    }
+
+    /**
+     * @return array
+     */
+    public static function languageList()
+    {
+        $config = require \Yii::getAlias('@app/config/i18n.php');
+        return array_combine($config['languages'], $config['languages']);
     }
 
 }
