@@ -8,21 +8,12 @@ USAGE:
 - add to your config file into 'components'
 ```
 'i18n'  => [
-    'class' => 'bariew\i18nModule\components\I18N',
     'translations' => [
-        'modules/*' => [
-            'class' => 'yii\i18n\DbMessageSource',
-        ],
-        'app' => [
+        '*' => [
             'class' => 'yii\i18n\DbMessageSource',
         ],
     ],
 ],
-```
-
-- add to your config file into 'modules'
-```
-'i18n' => ['class' => 'bariew\i18nModule\Module'],
 ```
 
 - Copy migration file from this module 'migrations' folder into your app 'migrations' folder and run in console

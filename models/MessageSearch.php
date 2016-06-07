@@ -5,12 +5,10 @@
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
 
-namespace bariew\i18nModule\models\search;
+namespace bariew\i18nModule\models;
 
-use bariew\i18nModule\models\SourceMessage;
 use Yii;
 use yii\data\ActiveDataProvider;
-use bariew\i18nModule\models\Message;
 
 /**
  * Description.
@@ -45,18 +43,17 @@ class MessageSearch extends Message
      */
     public function search($params)
     {
-        $sourceMessageTable = SourceMessage::tableName();
         $query = Message::find();
         $query->joinWith('source');
         
         $dataProvider = new ActiveDataProvider(['query' => $query]);
         $dataProvider->getSort()->attributes['sourceMessage'] = [
-            'asc' => [$sourceMessageTable.'.message' => SORT_ASC],
-            'desc' => [$sourceMessageTable.'.message' => SORT_DESC],
+            'asc' => ['source.message' => SORT_ASC],
+            'desc' => ['source.message' => SORT_DESC],
         ];
         $dataProvider->getSort()->attributes['sourceCategory'] = [
-            'asc' => [$sourceMessageTable.'.category' => SORT_ASC],
-            'desc' => [$sourceMessageTable.'.category' => SORT_DESC],
+            'asc' => ['source.category' => SORT_ASC],
+            'desc' => ['source.category' => SORT_DESC],
         ];
 
         if (!($this->load($params) && $this->validate())) {
@@ -80,7 +77,7 @@ class MessageSearch extends Message
             $query->andWhere(['like', 'translation', '%' . $this->translation .'%', false]);
         }
         if ($this->sourceMessage) {
-            $query->andFilterWhere(['like', $sourceMessageTable.'.message', $this->sourceMessage]);
+            $query->andFilterWhere(['like', 'source.message', $this->sourceMessage]);
         }
 
         if ($this->language) {
@@ -88,7 +85,7 @@ class MessageSearch extends Message
         }
         
         if ($this->sourceCategory) {
-            $query->andFilterWhere(['like', $sourceMessageTable.'.category', $this->sourceCategory]);
+            $query->andFilterWhere(['like', 'source.category', $this->sourceCategory]);
         }
         return $dataProvider;
     }
