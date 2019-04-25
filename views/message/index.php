@@ -31,7 +31,10 @@ $this->title = Yii::t('modules/i18n', "Translations");
             'format' => 'raw',
             'value' => function($model) {
                 return "<div contentEditable='true'
-                    style='background-color: white;border: 1px solid #ddd;min-height: 20px'
+                    style='background-color: white;border: 1px solid #ddd;min-height: 20px' 
+                    onkeydown='if (event.ctrlKey && event.keyCode == 13) {
+                        $(this).parents(\"tr\").find(\".btn-success\").click();
+                    }'
                     class='form-control translate-live-input'
                 >{$model->translation}</div>";
             }
